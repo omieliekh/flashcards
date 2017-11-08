@@ -5,8 +5,9 @@
   "author": "Oleksandr Mieliekh <meleh.alexandr@gmail.com>",
   "private": true,
   "scripts": {
+    "server": "NODE_ENV=dev DB_NAME='./sqlite3.db' nodemon ./server/server.js",
     "dev": "node build/dev-server.js",
-    "start": "npm run dev",
+    "start": "npm run dev & npm run server",
     "build": "node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
@@ -15,6 +16,12 @@
   },
   "dependencies": {
     "bootstrap-vue": "^1.0.0-beta.9",
+    "jsonwebtoken": "^8.1.0",
+    "koa": "^2.4.1",
+    "koa-body": "^2.5.0",
+    "koa-router": "^7.2.1",
+    "nodemon": "^1.12.1",
+    "sqlite3": "^3.1.13",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
