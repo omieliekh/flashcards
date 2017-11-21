@@ -4,14 +4,16 @@
 
     <b-row>
       <b-col sm="6" md="4" lg="3" v-for="card in list">
-        <b-card
-          overlay
-          :img-src="card.src"
-          :img-alt="card.text"
-          text-variant="white"
-          :title="card.text"
-          class="mb-4"
-        ></b-card>
+        <router-link to="/slideshow">
+          <b-card
+            overlay
+            :img-src="card.src"
+            :img-alt="card.text"
+            text-variant="white"
+            :title="card.text"
+            class="mb-4"
+          ></b-card>
+        </router-link>
       </b-col>
     </b-row>
   </div>

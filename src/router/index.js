@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 
 import CardsList from '@/components/CardsList'
+import Slideshow from '@/components/Slideshow'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
@@ -29,6 +30,11 @@ export default new Router({
       path: '/cards-list',
       name: 'CardsList',
       component: CardsList
+    },
+    {
+      path: '/slideshow',
+      name: 'Slideshow',
+      component: Slideshow
     }
   ]
 })
