@@ -31,7 +31,6 @@ async function getUserDetails (email, hashPassword) {
 router
   .post('/api/login', async ctx => {
     const body = ctx.request.body
-    ctx.type = 'application/json'
 
     const hashPassword = crypto.createHash('md5').update(body.password).digest('hex')
 

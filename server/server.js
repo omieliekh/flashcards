@@ -34,6 +34,7 @@ app.use(async (ctx, next) => {
 
   if (ctx.body && typeof ctx.body !== 'string') {
     decode(ctx.body)
+    ctx.type = 'application/json'
   }
 })
 

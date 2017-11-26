@@ -64,8 +64,6 @@ router.get('/users', async ctx => {
   const ADMIN_QUERY = 'SELECT id, email, name, role FROM users'
   const MANAGER_QUERY = 'SELECT id, email, name, role FROM users where role="user"'
 
-  ctx.type = 'application/json'
-
   if (!checkEditPermit(ctx)) {
     return
   }
@@ -83,7 +81,6 @@ router.get('/users/:id', async (ctx) => {
 
 router.post('/users', async (ctx) => {
   const body = ctx.request.body
-  ctx.type = 'application/json'
 
   if (!checkEditPermit(ctx)) {
     return
@@ -111,7 +108,6 @@ router.post('/users', async (ctx) => {
 
 router.put('/users/:id', async (ctx) => {
   const body = ctx.request.body
-  ctx.type = 'application/json'
 
   if (!(await checkPermit(ctx))) {
     return
@@ -147,7 +143,6 @@ router.put('/users/:id', async (ctx) => {
 router.delete('/users/:id', async (ctx) => {
   const id = ctx.params.id
   const userId = ctx.state.user.id
-  ctx.type = 'application/json'
 
   const user = await checkPermit(ctx)
 
@@ -170,8 +165,6 @@ router.delete('/users/:id', async (ctx) => {
 })
 
 router.get('/simple-users', async ctx => {
-  ctx.type = 'application/json'
-
   if (!checkEditPermit(ctx)) {
     return
   }
