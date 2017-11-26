@@ -4,7 +4,7 @@ function isObject (obj) {
 
 function process (type, obj) {
   if (Array.isArray(obj)) {
-    return obj.forEach(item => process(type, item))
+    return obj.map(item => process(type, item))
   }
 
   if (isObject(obj)) {
