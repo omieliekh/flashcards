@@ -16,3 +16,7 @@ selenium-debug.log
 *.ntvs*
 *.njsproj
 *.sln
+
+# Dynamic images
+static/user-images/*
+!static/user-images/.gitkeep

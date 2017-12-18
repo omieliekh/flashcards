@@ -4,6 +4,8 @@ const bodyParser = require('koa-body')
 const { encode, decode } = require('./escape-data')
 const auth = require('./auth')
 const users = require('./users')
+const slideshows = require('./slideshows')
+
 
 const DEBUG = process.env.NODE_ENV === 'dev'
 const app = new Koa()
@@ -40,6 +42,7 @@ app.use(async (ctx, next) => {
 
 app.use(auth.routes())
 app.use(users.routes())
+app.use(slideshows.routes())
 
 module.exports = app.listen(3000)
 DEBUG && console.log('running on http://localhost:3000')

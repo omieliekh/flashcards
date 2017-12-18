@@ -3,14 +3,14 @@
     <h1>{{ msg }}</h1>
 
     <b-row>
-      <b-col sm="6" md="4" lg="3" v-for="card in list">
+      <b-col sm="6" md="4" lg="3" v-for="slideshow in slideshows"  :key="slideshow.id">
         <router-link to="/slideshow">
           <b-card
             overlay
-            :img-src="card.src"
-            :img-alt="card.text"
+            :img-src="getImagePath() + slideshow.image_path"
+            :img-alt="slideshow.name"
             text-variant="white"
-            :title="card.text"
+            :title="slideshow.name"
             class="mb-4"
           ></b-card>
         </router-link>
@@ -20,48 +20,36 @@
 </template>
 
 <script>
+  import config from '../config.js'
+  import Auth from '../services/Auth'
+
   export default {
     name: 'cards',
     data () {
       return {
         msg: 'Cards List',
-        list: [
-          {
-            id: 0,
-            src: 'https://lorempixel.com/300/250/sports/1/',
-            text: 'Subtitle 4 and some long text'
-          },
-          {
-            id: 1,
-            src: 'https://lorempixel.com/300/250/sports/2/',
-            text: 'Subtitle 5'
-          },
-          {
-            id: 2,
-            src: 'https://lorempixel.com/300/250/sports/3/',
-            text: 'Subtitle 6'
-          },
-          {
-            id: 3,
-            src: 'https://lorempixel.com/300/250/sports/5/',
-            text: 'Subtitle 4 and some long text'
-          },
-          {
-            id: 4,
-            src: 'https://lorempixel.com/300/250/sports/6/',
-            text: 'Subtitle 4 and some long text'
-          },
-          {
-            id: 5,
-            src: 'https://lorempixel.com/300/250/sports/7/',
-            text: 'Subtitle 6'
-          },
-          {
-            id: 6,
-            src: 'https://lorempixel.com/300/250/sports/8/',
-            text: 'Subtitle 5'
-          }
-        ]
+        getImagePath: function () {
+          return config.userImages + Auth.user.email + '/'
+        },
+        slideshows: []
+      }
+    },
+    mounted: function () {
+      this.getList()
+    },
+    methods: {
+      getList () {
+        this.$http.get('/api/slideshows')
+          .then(({ data: slideshows }) => {
+            this.slideshows = slideshows
+          })
+          .catch(console.error)
+
+        this.$http.get('/api/slideshows/1')
+          .then(slideshow => {
+            console.log('slideshow id:1: : ', slideshow)
+          })
+          .catch(console.error)
       }
     }
   }
@@ -78,6 +66,15 @@
 
     &>img {
       z-index: 1;
+      height: 100%;
+      position: absolute;
+      object-fit: cover;
+    }
+
+    &:before {
+      content: "";
+      display: block;
+      padding-top: 75%;
     }
 
     &:after {
