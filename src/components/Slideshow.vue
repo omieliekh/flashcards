@@ -1,57 +1,43 @@
 <template>
   <div class="slideshow">
-    <b-carousel id="carousel1"
-                style="text-shadow: 1px 1px 2px #333;"
-                controls
-                indicators
-                background="#ababab"
-                :interval="4000"
-                img-width="1024"
-                img-height="480"
-                v-model="slide"
-                @sliding-start="onSlideStart"
-                @sliding-end="onSlideEnd"
+    <b-carousel
+      v-if="slideshow"
+      controls
+      indicators
+      :interval="4000"
     >
-
-      <!-- Text slides with image -->
-      <b-carousel-slide caption="First slide"
-                        text="Nulla vitae elit libero, a pharetra augue mollis interdum."
-                        img-src="https://lorempixel.com/1024/480/technics/2/"
+      <b-carousel-slide
+        v-for="slide in slideshow.slides"  :key="slide.id"
+        :caption="slide.text"
+        :img-src="getImagePath() + slide.image_path"
       ></b-carousel-slide>
-
-      <!-- Slides with custom text -->
-      <b-carousel-slide img-src="https://lorempixel.com/1024/480/technics/4/">
-        <h1>Hello world!</h1>
-      </b-carousel-slide>
-
-      <!-- Slides with image only -->
-      <b-carousel-slide img-src="https://lorempixel.com/1024/480/technics/8/">
-      </b-carousel-slide>
-
-      <!-- Slides with img slot -->
-      <!-- Note the classes .d-block and .img-fluid to prevent browser default image alignment -->
-      <b-carousel-slide>
-        <img slot="img" class="d-block img-fluid w-100" width="1024" height="480"
-             src="https://lorempixel.com/1024/480/technics/5/" alt="image slot">
-      </b-carousel-slide>
     </b-carousel>
   </div>
 </template>
 
 <script>
+  import Auth from '../services/Auth'
+
   export default {
     data () {
       return {
-        slide: 0,
-        sliding: null
+        slideshow: null,
+
+        getImagePath: Auth.getImagePath.bind(Auth)
       }
     },
+    mounted () {
+      this.getSlides()
+    },
     methods: {
-      onSlideStart (slide) {
-        this.sliding = true
-      },
-      onSlideEnd (slide) {
-        this.sliding = false
+      getSlides () {
+        const id = this.$route.params.id
+
+        this.$http.get(`/api/slideshows/${id}`)
+          .then(({ data: slideshow }) => {
+            this.slideshow = slideshow
+          })
+          .catch(console.error)
       }
     }
   }
@@ -75,11 +61,18 @@
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
       }
+    }
+
+    .carousel-indicators li {
+      box-shadow: 0 1px 4px 0 black;
+    }
+
+    .carousel-caption,
+    .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+      text-shadow: 0 1px 4px black;
     }
   }
 </style>
-
-
-

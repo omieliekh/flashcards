@@ -32,7 +32,7 @@ export default new Router({
       component: CardsList
     },
     {
-      path: '/slideshow',
+      path: '/slideshow/:id',
       name: 'Slideshow',
       component: Slideshow
     }

@@ -4,7 +4,7 @@
 
     <b-row>
       <b-col sm="6" md="4" lg="3" v-for="slideshow in slideshows"  :key="slideshow.id">
-        <router-link to="/slideshow">
+        <router-link :to="'/slideshow/' + slideshow.id">
           <b-card
             overlay
             :img-src="getImagePath() + slideshow.image_path"
@@ -20,7 +20,6 @@
 </template>
 
 <script>
-  import config from '../config.js'
   import Auth from '../services/Auth'
 
   export default {
@@ -28,13 +27,12 @@
     data () {
       return {
         msg: 'Cards List',
-        getImagePath: function () {
-          return config.userImages + Auth.user.email + '/'
-        },
-        slideshows: []
+        slideshows: [],
+
+        getImagePath: Auth.getImagePath.bind(Auth)
       }
     },
-    mounted: function () {
+    mounted () {
       this.getList()
     },
     methods: {

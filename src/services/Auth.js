@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import router from '../router'
+import config from '../config'
 
 export default {
   user: null,
@@ -50,6 +51,10 @@ export default {
 
         return data
       })
+  },
+
+  getImagePath () {
+    return this.user ? (config.userImages + this.user.email + '/') : '/'
   },
 
   useAuthHeaderInterceptor () {
