@@ -3,9 +3,9 @@ const Koa = require('koa')
 const bodyParser = require('koa-body')
 const { encode, decode } = require('./escape-data')
 const auth = require('./auth')
+const images = require('./images')
 const users = require('./users')
 const slideshows = require('./slideshows')
-
 
 const DEBUG = process.env.NODE_ENV === 'dev'
 const app = new Koa()
@@ -41,6 +41,7 @@ app.use(async (ctx, next) => {
 })
 
 app.use(auth.routes())
+app.use(images.routes())
 app.use(users.routes())
 app.use(slideshows.routes())
 
