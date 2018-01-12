@@ -1,6 +1,6 @@
 <template>
   <b-col sm="6" md="4" lg="3">
-    <router-link :to="link">
+    <router-link v-if="link" :to="link">
       <b-card
         overlay
         :img-src="imagePath"
@@ -9,6 +9,15 @@
         :title="name"
       ></b-card>
     </router-link>
+
+    <b-card
+      v-if="!link"
+      overlay
+      :img-src="imagePath"
+      :img-alt="name"
+      text-variant="white"
+      :title="name"
+    ></b-card>
   </b-col>
 </template>
 

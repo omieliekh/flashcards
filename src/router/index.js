@@ -3,6 +3,7 @@ import Router from 'vue-router'
 
 import CardsList from '@/components/CardsList'
 import Slideshow from '@/components/Slideshow'
+import Images from '@/components/Images'
 import HelloWorld from '@/components/HelloWorld'
 import Login from '@/components/Login'
 import SignUp from '@/components/SignUp'
@@ -35,6 +36,11 @@ export default new Router({
       path: '/slideshow/:id',
       name: 'Slideshow',
       component: Slideshow
+    },
+    {
+      path: '/images',
+      name: 'Images',
+      component: Images
     }
   ]
 })

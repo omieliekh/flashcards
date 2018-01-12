@@ -9,6 +9,7 @@
         <template v-if="auth.user">
           <router-link to="/">Hello World</router-link>
           <router-link to="/cards-list">Cards List</router-link>
+          <router-link to="/images">Images</router-link>
         </template>
       </b-col>
 
