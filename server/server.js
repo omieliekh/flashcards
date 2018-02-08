@@ -17,7 +17,7 @@ try {
 // Set up body parsing middleware
 app.use(bodyParser({
   formidable: {
-    uploadDir: './uploads'
+    uploadDir: `${__dirname}/../uploads`
   },
   multipart: true,
   urlencoded: true

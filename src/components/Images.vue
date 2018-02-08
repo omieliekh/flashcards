@@ -1,6 +1,16 @@
 <template>
   <div class="images">
-    <h1>{{ msg }}</h1>
+    <b-row>
+      <b-col>
+        <h1>{{ msg }}</h1>
+      </b-col>
+      <b-col class="text-right">
+        <b-button variant="primary" class="upload-button">
+          <span class="upload-button-title">Upload</span>
+          <input type="file" @change="onFileChange">
+        </b-button>
+      </b-col>
+    </b-row>
 
     <b-row>
       <link-card
@@ -8,6 +18,8 @@
         :link="upperPath"
         image-path="static/images/folder-icon.png"
         name=".."
+        :hide-border="true"
+        :center-text="true"
       ></link-card>
 
       <link-card
@@ -16,6 +28,8 @@
         :link="file.type === 'dir' ? `/images/?subpath=${encodeURIComponent(subPath + file.name)}` : null"
         :image-path="file.type === 'dir' ? 'static/images/folder-icon.png' : (getImagePath() + subPath + file.name)"
         :name="file.name"
+        :hide-border="file.type === 'dir'"
+        :center-text="file.type === 'dir'"
       ></link-card>
     </b-row>
   </div>
@@ -50,8 +64,6 @@
 
         this.$http.get(url)
           .then(({ data: files }) => {
-            // console.log('images: ', JSON.stringify(images, null, 2))
-
             this.files = files
           })
           .catch(console.error)
@@ -62,6 +74,27 @@
         const upperPathLink = upperPath ? `/images/?subpath=${encodeURIComponent(upperPath)}` : '/images/'
 
         return upperPathLink
+      },
+
+      onFileChange (event) {
+        const files = event.target.files
+
+        if (!files || !files.length) {
+          return
+        }
+
+        const formData = new FormData()
+
+        formData.append('subpath', this.subPath)
+        formData.append('image', files[0], files[0].name)
+
+        this.$http.post('/api/images-upload', formData)
+          .then(({ data }) => {
+            if (data.success) {
+              this.getList()
+            }
+          })
+          .catch(console.error)
       }
     }
   }
@@ -69,5 +102,18 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+  .upload-button {
+    position: relative;
+    overflow: hidden;
 
+    [type=file] {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      opacity: 0;
+      transform: scale(2);
+    }
+  }
 </style>

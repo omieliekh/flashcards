@@ -7,6 +7,7 @@
         :img-alt="name"
         text-variant="white"
         :title="name"
+        :class="(hideBorder ? 'hide-border' : '') + ' ' + (centerText ? 'center-text' : '')"
       ></b-card>
     </router-link>
 
@@ -17,6 +18,7 @@
       :img-alt="name"
       text-variant="white"
       :title="name"
+      :class="(hideBorder ? 'hide-border' : '') + ' ' + (centerText ? 'center-text' : '')"
     ></b-card>
   </b-col>
 </template>
@@ -27,7 +29,9 @@
     props: {
       link: String,
       imagePath: String,
-      name: String
+      name: String,
+      hideBorder: Boolean,
+      centerText: Boolean
     },
     data () {
       return {}
@@ -40,6 +44,18 @@
   .card {
     position: relative;
     margin-bottom: 10px;
+
+    &.hide-border {
+      border: none !important;
+    }
+
+    &.center-text {
+      .card-title {
+        margin-top: 15px;
+        white-space: pre-wrap;
+        max-height: 3.6em;
+      }
+    }
 
     &>* {
       z-index: 3;
@@ -58,14 +74,16 @@
       padding-top: 75%;
     }
 
-    &:after {
-      content: '';
-      width: 100%;
-      height: 33.33%;
-      top: 0;
-      position: absolute;
-      background-color: rgba(0,0,0,.5);
-      z-index: 2;
+    &:not(.hide-border) {
+      &:after {
+        content: '';
+        width: 100%;
+        height: 33.33%;
+        top: 0;
+        position: absolute;
+        background-color: rgba(0,0,0,.5);
+        z-index: 2;
+      }
     }
 
     .card-title {
